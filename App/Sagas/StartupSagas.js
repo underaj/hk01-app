@@ -2,22 +2,12 @@ import { put, select } from 'redux-saga/effects'
 import AppsActions from '../Redux/AppsRedux'
 import { is } from 'ramda'
 
-// exported to make available for tests
-export const selectTemperature = (state) => state.temperature.temperature
 const selectApps = (state) => state.apps.apps
+
 // process STARTUP actions
 export function * startup (action) {
 
   if (__DEV__ && console.tron) {
-    // straight-up string logging
-    console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
-
-    // logging an object for better clarity
-    console.tron.log({
-      message: 'pass objects for better logging',
-      someGeneratorFunction: selectTemperature
-    })
-
     // fully customized!
     const subObject = { a: 1, b: [1, 2, 3], c: true }
     subObject.circularDependency = subObject // osnap!
@@ -29,15 +19,10 @@ export function * startup (action) {
         subObject,
         someInlineFunction: () => true,
         someGeneratorFunction: startup,
-        someNormalFunction: selectTemperature
+        someNormalFunction: selectApps
       }
     })
   }
-
-  const apps = yield select(selectApps)
-
-  if (!apps) {
-    yield put(AppsActions.requestApps())
-  }
-
+  yield put(AppsActions.requestApps('paid'));
+  yield put(AppsActions.requestApps('free'));
 }
