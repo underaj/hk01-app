@@ -7,7 +7,6 @@ import rootSaga from '../Sagas/'
 export default () => {
   /* ------------- Assemble The Reducers ------------- */
   const rootReducer = combineReducers({
-    temperature: require('./TemperatureRedux').reducer,
     apps: require('./AppsRedux').reducer,
     search: require('./SearchRedux').reducer
   })

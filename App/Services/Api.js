@@ -13,8 +13,7 @@ const create = (url, params, baseURL='https://itunes.apple.com/hk/') => {
     baseURL,
     headers: {
       'Cache-Control': 'no-cache'
-    },
-    timeout: 10000
+    }
   })
 
   // Wrap api's addMonitor to allow the calling code to attach

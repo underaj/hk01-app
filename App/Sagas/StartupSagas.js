@@ -23,6 +23,6 @@ export function * startup (action) {
       }
     })
   }
-  yield put(AppsActions.requestApps('paid'));
-  yield put(AppsActions.requestApps('free'));
+  yield put(AppsActions.requestTopPaidApps());
+  yield put(AppsActions.requestTopFreeApps());
 }
