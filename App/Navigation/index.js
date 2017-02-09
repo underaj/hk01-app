@@ -23,7 +23,8 @@ class NavigationRouter extends Component {
           navigationBarStyle={Styles.navBar}
           titleStyle={Styles.title}
           leftButtonIconStyle={Styles.leftButton}
-          rightButtonTextStyle={Styles.rightButton}>
+          rightButtonTextStyle={Styles.rightButton}
+          >
 
           <Scene initial
             key='homeScreen'

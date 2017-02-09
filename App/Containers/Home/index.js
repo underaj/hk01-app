@@ -20,78 +20,52 @@ import styles from './styles'
 import SearchBar from '../../Components/SearchBar';
 
 class Home extends React.Component {
-  state: { dataSource: Object }
+  state: {
+    topPaidApps: Object,
+    topFreeApps: Object
+  }
 
   constructor (props) {
     super(props)
-
-    const dataObjects = {
-      first: [
-        {title: 'First Title', description: 'First Description'},
-        {title: 'Second Title', description: 'Second Description'},
-        {title: 'Third Title', description: 'Third Description'},
-        {title: 'Fourth Title', description: 'Fourth Description'},
-        {title: 'Fifth Title', description: 'Fifth Description'},
-        {title: 'Sixth Title', description: 'Sixth Description'},
-        {title: 'Seventh Title', description: 'Seventh Description'},
-        {title: 'Eighth Title', description: 'Eighth Description'},
-        {title: 'Ninth Title', description: 'Ninth Description'},
-        {title: 'Tenth Title', description: 'Tenth Description'}
-      ],
-      second: [
-        {title: 'Eleventh Title', description: 'Eleventh Description'},
-        {title: '12th Title', description: '12th Description'},
-        {title: '13th Title', description: '13th Description'},
-        {title: '14th Title', description: '14th Description'},
-        {title: '15th Title', description: '15th Description'},
-        {title: '16th Title', description: '16th Description'},
-        {title: '17th Title', description: '17th Description'},
-        {title: '18th Title', description: '18th Description'},
-        {title: '19th Title', description: '19th Description'},
-        {title: '20th Title', description: '20th Description'},
-        {title: 'BLACKJACK!', description: 'BLACKJACK! Description'}
-      ]
-    }
 
     // Configure DataSource
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     })
 
-    console.tron.log({props})
-
     this.state = {
-      dataSource: ds.cloneWithRows(props.topFreeApps)
+      topPaidApps: ds.cloneWithRows(props.topPaidApps),
+      topFreeApps: ds.cloneWithRows(props.topFreeApps)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.results) {
+    if (nextProps) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.results)
+        topPaidApps: this.state.topPaidApps.cloneWithRows(nextProps.topPaidApps),
+        topFreeApps: this.state.topFreeApps.cloneWithRows(nextProps.topFreeApps)
       })
     }
+
     console.tron.display({name: 'here is the data in nextProps!', value: nextProps})
   }
 
-  renderRow (searchResult) {
+  renderPaidCol (data) {
     return (
       <View style={styles.row}>
-        <Text style={styles.boldLabel}>{searchResult}</Text>
+        <Text style={styles.boldLabel}>{data['im:name'].label}</Text>
       </View>
     )
   }
-  render () {
+
+  renderFreeRow (data) {
     return (
-      <ScrollView style={styles.container}>
-        <View>
-          <Text>
-            Recommendations
-          </Text>
-        </View>
-      </ScrollView>
+      <View style={styles.row}>
+        <Text style={styles.boldLabel}>{data['im:name'].label}</Text>
+      </View>
     )
   }
+
   // render () {
   //   return (
   //     <ScrollView style={styles.container}>
@@ -100,20 +74,35 @@ class Home extends React.Component {
   //           Recommendations
   //         </Text>
   //       </View>
-  //       <ListView
-  //         horizontal />
-
-  //       <ListView
-  //         contentContainerStyle={styles.listContent}
-  //         dataSource={this.state.dataSource}
-  //         renderRow={this.renderRow}
-  //         pageSize={15}
-  //         scrollEnabled={false}
-  //         enableEmptySections
-  //         />
   //     </ScrollView>
   //   )
   // }
+  render () {
+    return (
+      <ScrollView style={styles.mainContainer}>
+        <View>
+          <Text>
+            Recommendations
+          </Text>
+        </View>
+        <ListView
+          horizontal
+          dataSource={this.state.topPaidApps}
+          renderRow={this.renderPaidCol}
+          enableEmptySections
+          />
+
+        <ListView
+          contentContainerStyle={styles.listContent}
+          dataSource={this.state.topFreeApps}
+          renderRow={this.renderFreeRow}
+          pageSize={15}
+          scrollEnabled={false}
+          enableEmptySections
+          />
+      </ScrollView>
+    )
+  }
 
 }
 
@@ -128,6 +117,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+
   }
 }
 
