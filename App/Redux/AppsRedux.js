@@ -8,8 +8,11 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   requestTopPaidApps: [''],
   requestTopFreeApps: [''],
-  requestSuccess: ['data'],
-  requestFailure: ['data'],
+  requestAppListSuccess: ['data'],
+  requestAppListFailure: ['response'],
+  requestApp: ['data'],
+  requestAppSuccess: ['data'],
+  requestAppFailure: ['data'],
 })
 
 export const AppsTypes = Types
@@ -36,37 +39,70 @@ const requestTopPaid = (state: Object, action: Object) =>
 const requestTopFree = (state: Object, action: Object) =>
   state.set('topFreeApps', [])
 
-const success = (state: Object, action: Object) => {
-
+const appListSuccess = (state: Object, action: Object) => {
   const { nature, entries } = action.data
-
+  const substate = entries.map(entry => ({
+    id: entry.id.attributes['im:id'],
+    name: entry['im:name'].label,
+    image: entry['im:image'][2].label,
+    category: entry.category.attributes.label,
+    link: entry.link.attributes.href,
+    rating: null,
+    ratingCount: null
+  }))
   if (nature === 'paid') {
     return state
-      .set('topPaidApps', entries)
+      .set('topPaidApps', substate)
       .set('paidAppsError', false)
   }
   if (nature === 'free') {
     return state
-      .set('topFreeApps', entries)
+      .set('topFreeApps', substate)
       .set('freeAppsError', false)
       .set('fetching', false)
   }
 }
 
-const failure = (state: Object, action: Object) => {
-
-  const { nature, entries } = action.data
-
+const appListFailure = (state: Object, action: Object) => {
+  const { nature, response } = action.data
   if (nature === 'paid') {
     return state
-      .set('paidAppsError', entries)
+      .set('paidAppsError', response)
       .set('topPaidApps', [])
   }
   if (nature === 'free') {
     return state
-      .set('freeAppsError', entries)
+      .set('freeAppsError', response)
       .set('topFreeApps', [])
       .set('fetching', false)
+  }
+}
+
+const appSuccess = (state: Object, action: Object) => {
+  const { nature, key, rating, ratingCount } = action.data
+  if (nature === 'paid') {
+    return state
+      .setIn(['topPaidApps', key, 'rating'], rating)
+      .setIn(['topPaidApps', key, 'ratingCount'], ratingCount)
+  }
+  if (nature === 'free') {
+    return state
+      .setIn(['topFreeApps', key, 'rating'], rating)
+      .setIn(['topFreeApps', key, 'ratingCount'], ratingCount)
+  }
+}
+
+const appFailure = (state: Object, action: Object) => {
+  const { nature, key } = action.data
+  if (nature === 'paid') {
+    return state
+      .setIn(['topPaidApps', key, 'rating'], undefined)
+      .setIn(['topPaidApps', key, 'ratingCount'], undefined)
+  }
+  if (nature === 'free') {
+    return state
+      .setIn(['topFreeApps', key, 'rating'], undefined)
+      .setIn(['topFreeApps', key, 'ratingCount'], undefined)
   }
 }
 
@@ -75,6 +111,8 @@ const failure = (state: Object, action: Object) => {
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.REQUEST_TOP_PAID_APPS]: requestTopPaid,
   [Types.REQUEST_TOP_FREE_APPS]: requestTopFree,
-  [Types.REQUEST_SUCCESS]: success,
-  [Types.REQUEST_FAILURE]: failure
+  [Types.REQUEST_APP_LIST_SUCCESS]: appListSuccess,
+  [Types.REQUEST_APP_LIST_FAILURE]: appListFailure,
+  [Types.REQUEST_APP_SUCCESS]: appSuccess,
+  [Types.REQUEST_APP_FAILURE]: appFailure,
 })

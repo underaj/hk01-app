@@ -2,7 +2,7 @@
 import apisauce from 'apisauce'
 
 // our "constructor"
-const create = (url, params, baseURL='https://itunes.apple.com/hk/') => {
+const create = (url, baseURL='https://itunes.apple.com/hk/') => {
   // ------
   // STEP 1
   // ------
@@ -33,6 +33,7 @@ const create = (url, params, baseURL='https://itunes.apple.com/hk/') => {
   // rather than "get", "post" and friends.
 
   const getApps = () => api.get(url)
+  const getApp = () => api.get(url)
 
   // ------
   // STEP 3

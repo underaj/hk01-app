@@ -8,12 +8,12 @@ export function * getFreeApps () {
   const response = yield call(api.getApps)
 
   if (response.ok) {
-    yield put(AppsActions.requestSuccess({
+    yield put(AppsActions.requestAppListSuccess({
       nature: 'free',
       entries: response.data.feed.entry
     }))
   } else {
-    yield put(AppsActions.requestFailure({
+    yield put(AppsActions.requestAppListFailure({
       nature: 'free',
       data: response
     }))
@@ -25,14 +25,30 @@ export function * getPaidApps () {
   const response = yield call(api.getApps)
 
   if (response.ok) {
-    yield put(AppsActions.requestSuccess({
+    yield put(AppsActions.requestAppListSuccess({
       nature: 'paid',
       entries: response.data.feed.entry
     }))
   } else {
-    yield put(AppsActions.requestFailure({
+    yield put(AppsActions.requestAppListFailure({
       nature: 'paid',
       data: response
     }))
+  }
+}
+
+export function * getApp ({nature, key, appId}) {
+  const api = API.create(`lookup?id=${appId}&lang=zh`)
+  const response = yield call(api.getApp)
+
+  if (response.ok) {
+    yield put(AppsActions.requestAppSuccess({
+      nature,
+      key,
+      rating: response.results.averageUserRating,
+      ratingCount: response[0].results.userRatingCount
+    }))
+  } else {
+    yield put(AppsActions.requestAppFailure({nature, key}))
   }
 }

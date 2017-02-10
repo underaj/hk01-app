@@ -17,7 +17,10 @@ import { search } from '../../Redux/SearchRedux'
 // Styles
 import styles from './styles'
 
-import SearchBar from '../../Components/SearchBar';
+// Components
+import SearchBar from '../../Components/SearchBar'
+import RecommendedAppsList from '../../Components/RecommendedAppsList'
+import FreeAppsList from '../../Components/FreeAppsList'
 
 class Home extends React.Component {
   state: {
@@ -66,39 +69,14 @@ class Home extends React.Component {
     )
   }
 
-  // render () {
-  //   return (
-  //     <ScrollView style={styles.container}>
-  //       <View>
-  //         <Text>
-  //           Recommendations
-  //         </Text>
-  //       </View>
-  //     </ScrollView>
-  //   )
-  // }
   render () {
     return (
       <ScrollView style={styles.mainContainer}>
-        <View>
-          <Text>
-            Recommendations
-          </Text>
-        </View>
-        <ListView
-          horizontal
-          dataSource={this.state.topPaidApps}
-          renderRow={this.renderPaidCol}
-          enableEmptySections
+        <RecommendedAppsList
+          data={this.state.topPaidApps}
           />
-
-        <ListView
-          contentContainerStyle={styles.listContent}
-          dataSource={this.state.topFreeApps}
-          renderRow={this.renderFreeRow}
-          pageSize={15}
-          scrollEnabled={false}
-          enableEmptySections
+        <FreeAppsList
+          data={this.state.topFreeApps}
           />
       </ScrollView>
     )
