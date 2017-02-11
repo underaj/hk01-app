@@ -12,7 +12,9 @@ const FreeAppsList = ({ data }) => (
     dataSource={data}
     renderRow={AppEntry}
     renderSeparator={ListSeparator}
-    pageSize={15}
+    initialListSize={15}
+    pageSize={5}
+    scrollRenderAheadDistance={10}
     scrollEnabled={false}
     enableEmptySections
     />

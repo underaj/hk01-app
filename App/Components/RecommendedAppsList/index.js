@@ -12,6 +12,8 @@ const RecommendedAppsList = ({ data }) => (
       dataSource={data}
       renderRow={AppEntry}
       enableEmptySections
+      initialListSize={4}
+      pageSize={10}
       />
   </View>
 )
