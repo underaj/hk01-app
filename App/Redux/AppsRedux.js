@@ -41,7 +41,7 @@ const requestTopFree = (state: Object, action: Object) =>
 
 const appListSuccess = (state: Object, action: Object) => {
   const { nature, entries } = action.data
-  const substate = entries.map(entry => ({
+  const substate = entries.map((entry, i) => ({
     id: entry.id.attributes['im:id'],
     name: entry['im:name'].label,
     image: entry['im:image'][2].label,

@@ -6,16 +6,18 @@ import { ApplicationStyles } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
-  row: {
+  entry: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     flex: 1,
     padding: 12,
-    flexDirection: 'row',
     alignItems: 'center',
   },
-  rowInfo: {
+  info: {
+    flex: 1,
     justifyContent: 'space-between',
-    flexDirection: 'column',
-    paddingLeft: 20
+    paddingLeft: 15,
+    height: 74
   },
   separator: {
     flex: 1,
@@ -23,7 +25,7 @@ export default StyleSheet.create({
     backgroundColor: '#DCDCDC'
   },
   rank: {
-    fontSize: 30,
+    fontSize: 24,
     paddingLeft: 8,
     paddingRight: 20,
     color: '#929292',
@@ -31,12 +33,12 @@ export default StyleSheet.create({
   },
   imgRounded: {
     borderRadius: 8,
-    height: 84,
-    width: 84
+    height: 74,
+    width: 74,
   },
   imgCircle: {
-    borderRadius: 42,
-    height: 84,
-    width: 84,
+    borderRadius: 37,
+    height: 74,
+    width: 74,
   }
 })

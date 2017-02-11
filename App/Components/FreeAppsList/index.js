@@ -19,15 +19,15 @@ const FreeAppsList = ({ data }) => (
 )
 
 const AppEntry = (data, sectionId, rowId) => (
-  <View style={styles.row}>
+  <View style={styles.entry}>
     <Text style={styles.rank}>
       { rowId*1 + 1 }
     </Text>
     <Image
       style={rowId % 2 ? styles.imgRounded : styles.imgCircle}
       source={{uri: data.image}} />
-    <View style={styles.rowInfo}>
-      <Text style={styles.rowTitle}>
+    <View style={styles.info}>
+      <Text style={styles.name} numberOfLines={1}>
         { data.name }
       </Text>
       <Text style={styles.category}>

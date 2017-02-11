@@ -9,6 +9,14 @@ import Colors from './Colors'
 
 const ApplicationStyles = {
   screen: {
+    name: {
+      fontSize: 14,
+      color: 'black',
+    },
+    category: {
+      fontSize: 12,
+      color: 'grey',
+    },
     mainContainer: {
       flex: 1,
       marginTop: Metrics.navBarHeight,
