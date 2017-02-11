@@ -1,13 +1,14 @@
 import React from 'react'
 import { ListView, View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
 
+import { LazyloadScrollView, LazyloadListView, LazyloadView, LazyloadImage } from 'react-native-lazyload'
 import StarRating from 'react-native-star-rating'
 
 import { Colors, Metrics } from '../../Themes'
 import styles from './styles'
 
 const FreeAppsList = ({ data }) => (
-  <ListView
+  <LazyloadListView
     contentContainerStyle={styles.listContent}
     dataSource={data}
     renderRow={AppEntry}
@@ -19,14 +20,14 @@ const FreeAppsList = ({ data }) => (
 )
 
 const AppEntry = (data, sectionId, rowId) => (
-  <View style={styles.entry}>
+  <LazyloadView style={styles.entry}>
     <Text style={styles.rank}>
       { rowId*1 + 1 }
     </Text>
-    <Image
+    <LazyloadImage
       style={rowId % 2 ? styles.imgRounded : styles.imgCircle}
       source={{uri: data.image}} />
-    <View style={styles.info}>
+    <LazyloadView style={styles.info}>
       <Text style={styles.name} numberOfLines={1}>
         { data.name }
       </Text>
@@ -42,8 +43,8 @@ const AppEntry = (data, sectionId, rowId) => (
       */}
 
 
-    </View>
-  </View>
+    </LazyloadView>
+  </LazyloadView>
 )
 
 const ListSeparator = (sectionId, rowId) => (
