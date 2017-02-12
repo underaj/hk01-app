@@ -15,7 +15,6 @@ export default {
   },
   title: {
     flex: 1,
-    textAlign: 'center',
     color: Colors.snow,
     marginTop: Metrics.doubleBaseMargin,
     backgroundColor: Colors.transparent,

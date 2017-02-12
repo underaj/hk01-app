@@ -12,7 +12,7 @@ import { Metrics } from '../../Themes'
 
 // external libs
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { search } from '../../Redux/SearchRedux'
+import SearchActions from '../../Redux/SearchRedux'
 
 // Styles
 import styles from './styles'
@@ -21,11 +21,13 @@ import styles from './styles'
 import SearchBar from '../../Components/SearchBar'
 import RecommendedAppsList from '../../Components/RecommendedAppsList'
 import FreeAppsList from '../../Components/FreeAppsList'
+import SearchResultsList from '../../Components/SearchResultsList'
 
 class Home extends React.Component {
   state: {
     topPaidApps: Object,
-    topFreeApps: Object
+    topFreeApps: Object,
+    results: Object
   }
 
   constructor (props) {
@@ -38,46 +40,59 @@ class Home extends React.Component {
 
     this.state = {
       topPaidApps: ds.cloneWithRows(props.topPaidApps),
-      topFreeApps: ds.cloneWithRows(props.topFreeApps)
+      topFreeApps: ds.cloneWithRows(props.topFreeApps),
+      results: ds.cloneWithRows(props.results),
+      loaded: false
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
+      const topPaidApps = nextProps.topPaidApps
+      const topFreeApps = nextProps.topFreeApps
+      const results     = nextProps.results
+
       this.setState({
-        topPaidApps: this.state.topPaidApps.cloneWithRows(nextProps.topPaidApps),
-        topFreeApps: this.state.topFreeApps.cloneWithRows(nextProps.topFreeApps)
+        topPaidApps: this.state.topPaidApps.cloneWithRows(topPaidApps),
+        topFreeApps: this.state.topFreeApps.cloneWithRows(topFreeApps),
+        results: this.state.results.cloneWithRows(results)
       })
+
+      if (!this.state.loaded && topPaidApps.length && topFreeApps.length) {
+        this.props.combineLists(topPaidApps, topFreeApps)
+        this.setState({loaded: true})
+      }
+
     }
-
-    console.tron.display({name: 'here is the data in nextProps!', value: nextProps})
   }
 
-  renderPaidCol (data) {
+  renderMain () {
     return (
-      <View style={styles.row}>
-        <Text style={styles.boldLabel}>{data['im:name'].label}</Text>
-      </View>
-    )
-  }
-
-  renderFreeRow (data) {
-    return (
-      <View style={styles.row}>
-        <Text style={styles.boldLabel}>{data['im:name'].label}</Text>
-      </View>
-    )
-  }
-
-  render () {
-    return (
-      <ScrollView style={styles.mainContainer}>
+      <View>
         <RecommendedAppsList
           data={this.state.topPaidApps}
           />
         <FreeAppsList
           data={this.state.topFreeApps}
           />
+      </View>
+    )
+  }
+
+  renderSearchResults() {
+    return (<SearchResultsList data={this.state.results} />)
+  }
+
+  renderLoading () {
+
+  }
+
+  render () {
+    return (
+      <ScrollView style={styles.mainContainer}>
+        {this.props.searching ?
+          this.renderSearchResults() :
+          this.renderMain()}
       </ScrollView>
     )
   }
@@ -90,12 +105,17 @@ const mapStateToProps = (state) => {
     topFreeApps: state.apps.topFreeApps,
     paidAppsError: state.apps.paidAppsError,
     freeAppsError: state.apps.freeAppsError,
+    searching: state.search.searching,
+    results: state.search.results
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    combineLists: (list1, list2) => {
+      const apps = list1.concat(list2)
+      return dispatch(SearchActions.createFilterList(apps))
+    }
   }
 }
 

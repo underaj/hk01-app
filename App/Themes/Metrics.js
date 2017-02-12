@@ -25,12 +25,11 @@ const metrics = {
     large: 45,
     xl: 60
   },
-  images: {
-    small: 20,
-    medium: 40,
-    large: 60,
-    logo: 300
-  }
+  image: {
+    row: 74,
+    col: 84,
+    radius: 8
+  },
 }
 
 export default metrics

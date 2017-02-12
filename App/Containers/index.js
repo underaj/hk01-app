@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 import NavigationRouter from '../Navigation'
 import StartupActions from '../Redux/StartupRedux'
+import AppsActions from '../Redux/AppsRedux'
 
 // Styles
 import styles from './styles'
@@ -13,6 +14,7 @@ import styles from './styles'
 class RootContainer extends Component {
   componentDidMount () {
     this.props.startup()
+    this.props.fetchAppLists()
   }
 
   render () {
@@ -29,6 +31,10 @@ class RootContainer extends Component {
 const mapDispatchToProps = (dispatch) => ({
   startup: () => {
     dispatch(StartupActions.startup())
+  },
+  fetchAppLists: () => {
+    dispatch(AppsActions.requestTopPaidApps())
+    dispatch(AppsActions.requestTopFreeApps())
   }
 })
 

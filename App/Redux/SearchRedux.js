@@ -5,26 +5,15 @@ import Immutable from 'seamless-immutable'
 import { filter } from 'ramda'
 import { startsWith } from 'ramdasauce'
 
-const LIST_DATA = ['sausage', 'blubber', 'pencil', 'cloud', 'moon', 'water', 'computer', 'school',
-  'network', 'hammer', 'walking', 'violently', 'mediocre', 'literature', 'chair', 'two', 'window',
-  'cords', 'musical', 'zebra', 'xylophone', 'penguin', 'home', 'dog', 'final', 'ink', 'teacher', 'fun',
-  'website', 'banana', 'uncle', 'softly', 'mega', 'ten', 'awesome', 'attatch', 'blue', 'internet', 'bottle',
-  'tight', 'zone', 'tomato', 'prison', 'hydro', 'cleaning', 'telivision', 'send', 'frog', 'cup', 'book',
-  'zooming', 'falling', 'evily', 'gamer', 'lid', 'juice', 'moniter', 'captain', 'bonding', 'loudly', 'thudding',
-  'guitar', 'shaving', 'hair', 'soccer', 'water', 'racket', 'table', 'late', 'media', 'desktop', 'flipper',
-  'club', 'flying', 'smooth', 'monster', 'purple', 'guardian', 'bold', 'hyperlink', 'presentation', 'world', 'national',
-  'comment', 'element', 'magic', 'lion', 'sand', 'crust', 'toast', 'jam', 'hunter', 'forest', 'foraging',
-  'silently', 'tawesomated', 'joshing', 'pong', 'RANDOM', 'WORD'
-]
-
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
   search: ['searchTerm'],
+  createFilterList: ['apps'],
   cancelSearch: null
 })
 
-export const TemperatureTypes = Types
+export const SearchTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -32,21 +21,49 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   searchTerm: '',
   searching: false,
-  results: LIST_DATA
+  appList: [],
+  results: []
 })
 
 /* ------------- Reducers ------------- */
 
+const setAppList = (state: Object, action: Object) =>
+  state.set('appList', action.apps)
+
 export const performSearch = (state: Object, { searchTerm }: Object) => {
-  const results = filter(startsWith(searchTerm), LIST_DATA)
-  return state.merge({ searching: true, searchTerm, results })
+  searchTerm = searchTerm.toLowerCase();
+  let results = [];
+  const notIncluded = (app) => {
+    return(
+    app.category.toLowerCase().indexOf(searchTerm) === -1 &&
+    app.name.toLowerCase().indexOf(searchTerm) === -1 &&
+    app.author.toLowerCase().indexOf(searchTerm) === -1 &&
+    app.summary.toLowerCase().indexOf(searchTerm) === -1
+  )}
+
+  state.appList.forEach(app => {
+    if (notIncluded(app)) return;
+    console.tron.log({app})
+    results.push(app);
+  })
+
+  return state
+    .set('results', results)
+    .merge({ searching: true, searchTerm })
 }
 
-export const cancelSearch = (state: Object) => INITIAL_STATE
+export const cancelSearch = (state: Object) => {
+  return state.merge({
+    searching: false,
+    results: [],
+    searchTerm: ''
+  })
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SEARCH]: performSearch,
-  [Types.CANCEL_SEARCH]: cancelSearch
+  [Types.CANCEL_SEARCH]: cancelSearch,
+  [Types.CREATE_FILTER_LIST]: setAppList
 })

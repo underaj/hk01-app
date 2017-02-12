@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
-import { View, Image, LayoutAnimation } from 'react-native';
+import { View, Text, Image, LayoutAnimation } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Metrics, Images } from '../../Themes';
 import SearchBar from '../../Components/SearchBar';
 import SearchActions from '../../Redux/SearchRedux';
+// import SearchActions from '../../Redux/AppsRedux'
 import NavItems from '../NavItems';
 import styles from './styles';
 
@@ -26,11 +27,11 @@ class NavBar extends React.Component {
     this.props.cancelSearch()
   }
 
-  onSearch = (searchTerm) => {
-    this.props.performSearch(searchTerm)
-  }
+  // onSearch = (searchTerm) => {
+  //   this.props.performSearch(searchTerm)
+  // }
 
-  renderMiddle () {
+  renderSearch () {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     if (this.state.showSearchBar) {
       return <SearchBar onSearch={this.props.performSearch} searchTerm={this.props.searchTerm} onCancel={this.cancelSearch} />
@@ -38,15 +39,14 @@ class NavBar extends React.Component {
       console.log('props', this.props)
       return (
         <View>
-
         </View>
       )
     }
   }
 
-  renderRightButtons () {
+  renderRightButton () {
     if (this.state.showSearchBar) {
-      return <View style={{width: Metrics.icons.medium}} />
+      return null
     } else {
       return (
         <View style={styles.rightButtons}>
@@ -57,14 +57,10 @@ class NavBar extends React.Component {
   }
 
   renderLeftButtons () {
-    if (this.state.showSearchBar) {
-      return null
-    } else {
-      return (
-        <View style={styles.leftButtons}>
-        </View>
-      )
-    }
+    return (
+      <View style={styles.leftButtons}>
+      </View>
+    )
   }
 
   render () {
@@ -84,9 +80,9 @@ class NavBar extends React.Component {
 
     return (
       <View style={containerStyle}>
-        {this.renderLeftButtons()}
-        {this.renderMiddle()}
-        {this.renderRightButtons()}
+        {/*this.renderLeftButtons()*/}
+        {this.renderSearch()}
+        {this.renderRightButton()}
       </View>
     )
   }

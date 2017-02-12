@@ -19,7 +19,7 @@ const RecommendedAppsList = ({ data }) => (
 )
 
 const AppEntry = (data, sectionID, rowID) => (
-  <View style={styles.entry}>
+  <View style={styles.colEntry}>
     <Image
     style={styles.imgRounded}
     source={{uri: data.image}} />

@@ -1,5 +1,5 @@
 // @flow
-
+import { StyleSheet } from 'react-native'
 import Fonts from './Fonts'
 import Metrics from './Metrics'
 import Colors from './Colors'
@@ -16,6 +16,29 @@ const ApplicationStyles = {
     category: {
       fontSize: 12,
       color: 'grey',
+    },
+    rowEntry: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      flex: 1,
+      padding: 12,
+      alignItems: 'center',
+    },
+    imgRounded: {
+      borderRadius: Metrics.image.radius,
+      height: Metrics.image.row,
+      width: Metrics.image.row
+    },
+    info: {
+      flex: 1,
+      justifyContent: 'space-between',
+      paddingLeft: 15,
+      height: Metrics.image.row
+    },
+    separator: {
+      flex: 1,
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: Colors.silver
     },
     mainContainer: {
       flex: 1,

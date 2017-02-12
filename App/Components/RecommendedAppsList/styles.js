@@ -2,7 +2,7 @@
 // RecommendedAppsList Stylesheet
 
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles } from '../../Themes/'
+import { ApplicationStyles, Metrics } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -16,15 +16,14 @@ export default StyleSheet.create({
     fontSize: 24,
     paddingBottom: 15,
   },
-  entry: {
+  colEntry: {
     flexDirection: 'column',
     flexWrap: 'wrap',
-    width: 84,
+    width: Metrics.image.col,
     marginRight: 20,
   },
-  imgRounded: {
-    borderRadius: 8,
-    height: 84,
-    width: 84
-  }
+  imgRounded: StyleSheet.flatten([ApplicationStyles.screen.imgRounded, {
+    height: Metrics.image.col,
+    width: Metrics.image.col
+  }])
 })
