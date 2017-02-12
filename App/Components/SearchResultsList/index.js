@@ -18,7 +18,7 @@ const SearchResultsList = ({ data }) => (
 )
 
 const AppEntry = (data, sectionId, rowId) => (
-  <View style={styles.entry}>
+  <View style={styles.rowEntry}>
     <Image
       style={styles.imgRounded}
       source={{uri: data.image}}

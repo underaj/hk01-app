@@ -12,13 +12,12 @@ import { Metrics } from '../../Themes'
 
 // external libs
 import Icon from 'react-native-vector-icons/FontAwesome'
-import SearchActions from '../../Redux/SearchRedux'
+// import SearchActions from '../../Redux/SearchRedux'
 
 // Styles
 import styles from './styles'
 
 // Components
-import SearchBar from '../../Components/SearchBar'
 import RecommendedAppsList from '../../Components/RecommendedAppsList'
 import FreeAppsList from '../../Components/FreeAppsList'
 import SearchResultsList from '../../Components/SearchResultsList'
@@ -58,11 +57,6 @@ class Home extends React.Component {
         results: this.state.results.cloneWithRows(results)
       })
 
-      if (!this.state.loaded && topPaidApps.length && topFreeApps.length) {
-        this.props.combineLists(topPaidApps, topFreeApps)
-        this.setState({loaded: true})
-      }
-
     }
   }
 
@@ -83,10 +77,6 @@ class Home extends React.Component {
     return (<SearchResultsList data={this.state.results} />)
   }
 
-  renderLoading () {
-
-  }
-
   render () {
     return (
       <ScrollView style={styles.mainContainer}>
@@ -97,14 +87,13 @@ class Home extends React.Component {
     )
   }
 
+
 }
 
 const mapStateToProps = (state) => {
   return {
     topPaidApps: state.apps.topPaidApps,
     topFreeApps: state.apps.topFreeApps,
-    paidAppsError: state.apps.paidAppsError,
-    freeAppsError: state.apps.freeAppsError,
     searching: state.search.searching,
     results: state.search.results
   }
@@ -112,10 +101,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    combineLists: (list1, list2) => {
-      const apps = list1.concat(list2)
-      return dispatch(SearchActions.createFilterList(apps))
-    }
   }
 }
 

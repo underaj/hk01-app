@@ -27,16 +27,11 @@ class NavBar extends React.Component {
     this.props.cancelSearch()
   }
 
-  // onSearch = (searchTerm) => {
-  //   this.props.performSearch(searchTerm)
-  // }
-
   renderSearch () {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     if (this.state.showSearchBar) {
       return <SearchBar onSearch={this.props.performSearch} searchTerm={this.props.searchTerm} onCancel={this.cancelSearch} />
     } else {
-      console.log('props', this.props)
       return (
         <View>
         </View>

@@ -9,6 +9,12 @@ import styles from './styles';
 
 const SearchBar = ({ onSearch, onCancel, searchTerm }) => {
   const onSubmitEditing = () => onSearch(searchTerm)
+
+  console.tron.display({
+    name: 'searchBarSearchTerm',
+    value: {searchTerm}
+  })
+
   return (
     <Animatable.View animation='slideInRight' duration={250} style={styles.container}>
       <Icon name='search' size={Metrics.icons.tiny} style={styles.searchIcon} />
@@ -32,22 +38,5 @@ const SearchBar = ({ onSearch, onCancel, searchTerm }) => {
     </Animatable.View>
   )
 }
-
-// export default class SearchBar extends React.Component {
-
-//   static propTypes = {
-//     onSearch: React.PropTypes.func.isRequired,
-//     onCancel: React.PropTypes.func.isRequired,
-//     searchTerm: React.PropTypes.string
-//   }
-
-//   render () {
-//     const { onSearch, onCancel, searchTerm } = this.props
-//     const onSubmitEditing = () => onSearch(searchTerm)
-//     return (
-
-//     )
-//   }
-// }
 
 export default SearchBar

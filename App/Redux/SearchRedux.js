@@ -22,28 +22,35 @@ export const INITIAL_STATE = Immutable({
   searchTerm: '',
   searching: false,
   appList: [],
-  results: []
+  results: [],
+  loaded: false
 })
 
 /* ------------- Reducers ------------- */
 
 const setAppList = (state: Object, action: Object) =>
-  state.set('appList', action.apps)
+  state
+    .set('appList', action.apps)
+    .set('loaded', true)
 
 export const performSearch = (state: Object, { searchTerm }: Object) => {
+
+  if (searchTerm === '') {
+    return state.merge({'searching': false, searchTerm})
+  }
+
   searchTerm = searchTerm.toLowerCase();
   let results = [];
-  const notIncluded = (app) => {
-    return(
+
+  const notIncluded = (app) => (
     app.category.toLowerCase().indexOf(searchTerm) === -1 &&
     app.name.toLowerCase().indexOf(searchTerm) === -1 &&
     app.author.toLowerCase().indexOf(searchTerm) === -1 &&
     app.summary.toLowerCase().indexOf(searchTerm) === -1
-  )}
+  )
 
   state.appList.forEach(app => {
     if (notIncluded(app)) return;
-    console.tron.log({app})
     results.push(app);
   })
 
