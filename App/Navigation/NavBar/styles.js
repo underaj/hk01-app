@@ -21,12 +21,6 @@ export default {
     fontWeight: 'bold',
     fontSize: Fonts.size.input
   },
-  logo: {
-    alignSelf: 'center',
-    marginTop: Metrics.baseMargin,
-    height: Metrics.icons.large,
-    width: Metrics.icons.large
-  },
   rightButtons: {
     flex: 1,
     justifyContent: 'flex-end',

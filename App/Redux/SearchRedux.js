@@ -40,7 +40,6 @@ export const performSearch = (state: Object, { searchTerm }: Object) => {
   }
 
   searchTerm = searchTerm.toLowerCase();
-  let results = [];
 
   const notIncluded = (app) => (
     app.category.toLowerCase().indexOf(searchTerm) === -1 &&
@@ -49,6 +48,7 @@ export const performSearch = (state: Object, { searchTerm }: Object) => {
     app.summary.toLowerCase().indexOf(searchTerm) === -1
   )
 
+  let results = [];
   state.appList.forEach(app => {
     if (notIncluded(app)) return;
     results.push(app);
@@ -59,13 +59,13 @@ export const performSearch = (state: Object, { searchTerm }: Object) => {
     .merge({ searching: true, searchTerm })
 }
 
-export const cancelSearch = (state: Object) => {
-  return state.merge({
+export const cancelSearch = (state: Object) =>
+  state.merge({
     searching: false,
     results: [],
     searchTerm: ''
   })
-}
+
 
 /* ------------- Hookup Reducers To Types ------------- */
 

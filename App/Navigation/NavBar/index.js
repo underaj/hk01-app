@@ -2,10 +2,9 @@ import React, { PropTypes } from 'react';
 import { View, Text, Image, LayoutAnimation } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Metrics, Images } from '../../Themes';
 import SearchBar from '../../Components/SearchBar';
 import SearchActions from '../../Redux/SearchRedux';
-// import SearchActions from '../../Redux/AppsRedux'
+
 import NavItems from '../NavItems';
 import styles from './styles';
 
@@ -30,11 +29,12 @@ class NavBar extends React.Component {
   renderSearch () {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     if (this.state.showSearchBar) {
-      return <SearchBar onSearch={this.props.performSearch} searchTerm={this.props.searchTerm} onCancel={this.cancelSearch} />
-    } else {
       return (
-        <View>
-        </View>
+        <SearchBar
+          onSearch={this.props.performSearch}
+          searchTerm={this.props.searchTerm}
+          onCancel={this.cancelSearch}
+        />
       )
     }
   }
@@ -49,13 +49,6 @@ class NavBar extends React.Component {
         </View>
       )
     }
-  }
-
-  renderLeftButtons () {
-    return (
-      <View style={styles.leftButtons}>
-      </View>
-    )
   }
 
   render () {
@@ -75,7 +68,6 @@ class NavBar extends React.Component {
 
     return (
       <View style={containerStyle}>
-        {/*this.renderLeftButtons()*/}
         {this.renderSearch()}
         {this.renderRightButton()}
       </View>

@@ -1,11 +1,10 @@
 // @flow
 
 import React, { Component } from 'react'
-import { View, Text, StatusBar } from 'react-native'
+import { ActivityIndicator, View, Text, StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 
 import NavigationRouter from '../Navigation'
-import StartupActions from '../Redux/StartupRedux'
 import AppsActions from '../Redux/AppsRedux'
 import SearchActions from '../Redux/SearchRedux'
 
@@ -16,18 +15,15 @@ class RootContainer extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      errors: false,
+      errors: false
     }
   }
 
   componentDidMount () {
-    this.props.startup()
     this.props.fetchAppLists()
   }
 
   componentWillReceiveProps(nextProps) {
-    let context = this;
-
     if (nextProps && !nextProps.loaded) {
       const topPaidApps   = nextProps.topPaidApps
       const topFreeApps   = nextProps.topFreeApps
@@ -41,7 +37,6 @@ class RootContainer extends Component {
       if (topPaidApps.length && topFreeApps.length) {
         this.props.combineLists(topPaidApps, topFreeApps)
       }
-
     }
   }
 
@@ -54,12 +49,15 @@ class RootContainer extends Component {
       </View>
     )
   }
+
   renderLoading () {
     return (
-      <View style={styles.applicationView}>
-        <Text>
-          Loading...
-        </Text>
+      <View style={styles.loadingWrapper}>
+        <ActivityIndicator
+          animating={true}
+          style={styles.loader}
+          size="large"
+          />
       </View>
     )
   }
@@ -75,7 +73,6 @@ class RootContainer extends Component {
 
   render () {
     if (this.state.errors) { return renderError() }
-
     return this.props.loaded ? this.renderContent() : this.renderLoading()
   }
 }
@@ -91,9 +88,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  startup: () => {
-    dispatch(StartupActions.startup())
-  },
   fetchAppLists: () => {
     dispatch(AppsActions.requestTopPaidApps())
     dispatch(AppsActions.requestTopFreeApps())

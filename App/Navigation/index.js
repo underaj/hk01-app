@@ -21,19 +21,14 @@ class NavigationRouter extends Component {
         <Scene
           key='drawerChildrenWrapper'
           navigationBarStyle={Styles.navBar}
-          titleStyle={Styles.title}
-          leftButtonIconStyle={Styles.leftButton}
-          rightButtonTextStyle={Styles.rightButton}
-          >
+          rightButtonTextStyle={Styles.rightButton}>
 
           <Scene initial
             key='homeScreen'
             component={Home}
             title='Home'
             navBar={NavBar}
-            />
-
-          {/* Custom navigation bar example */}
+          />
 
         </Scene>
       </Router>

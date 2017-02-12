@@ -1,10 +1,9 @@
+// @flow
 import React from 'react'
 import { ListView, View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
-
-// import { LazyloadScrollView, LazyloadListView, LazyloadView, LazyloadImage } from 'react-native-lazyload'
 import StarRating from 'react-native-star-rating'
 
-import { Colors, Metrics } from '../../Themes'
+// Styles
 import styles from './styles'
 
 const FreeAppsList = ({ data }) => (
@@ -27,8 +26,9 @@ const AppEntry = (data, sectionId, rowId) => (
       { rowId*1 + 1 }
     </Text>
     <Image
-      style={rowId % 2 ? styles.imgRounded : styles.imgCircle}
-      source={{uri: data.image}} />
+      style={rowId % 2 ? styles.img : [styles.img, styles.imgCircle]}
+      source={{uri: data.image}}
+    />
     <View style={styles.info}>
       <Text style={styles.name} numberOfLines={1}>
         { data.name }

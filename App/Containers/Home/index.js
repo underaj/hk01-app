@@ -1,18 +1,8 @@
 // @flow
-// const testData = require('../../../testdata')
-
 import React from 'react'
 import { ScrollView, Text, View, ListView } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions as NavigationActions } from 'react-native-router-flux'
-
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
-import { Metrics } from '../../Themes'
-
-// external libs
-import Icon from 'react-native-vector-icons/FontAwesome'
-// import SearchActions from '../../Redux/SearchRedux'
 
 // Styles
 import styles from './styles'
@@ -86,8 +76,6 @@ class Home extends React.Component {
       </ScrollView>
     )
   }
-
-
 }
 
 const mapStateToProps = (state) => {
@@ -99,9 +87,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps)(Home)

@@ -10,35 +10,30 @@ import Colors from './Colors'
 const ApplicationStyles = {
   screen: {
     name: {
-      fontSize: 14,
-      color: 'black',
+      fontSize: Fonts.size.medium,
+      color: Colors.coal,
     },
     category: {
-      fontSize: 12,
-      color: 'grey',
+      fontSize: Fonts.size.small,
+      color: Colors.grey,
     },
     rowEntry: {
+      flex: 1,
       flexDirection: 'row',
       flexWrap: 'wrap',
-      flex: 1,
       padding: 12,
       alignItems: 'center',
     },
-    imgRounded: {
+    img: {
       borderRadius: Metrics.image.radius,
       height: Metrics.image.row,
-      width: Metrics.image.row
+      width: Metrics.image.row,
     },
     info: {
       flex: 1,
       justifyContent: 'space-between',
       paddingLeft: 15,
-      height: Metrics.image.row
-    },
-    separator: {
-      flex: 1,
-      height: StyleSheet.hairlineWidth,
-      backgroundColor: Colors.silver
+      height: Metrics.image.row - 8,
     },
     mainContainer: {
       flex: 1,
@@ -64,45 +59,7 @@ const ApplicationStyles = {
       borderBottomColor: Colors.frost,
       borderBottomWidth: 1
     },
-    sectionText: {
-      color: Colors.snow,
-      marginVertical: Metrics.smallMargin,
-      textAlign: 'center',
-      fontWeight: 'bold'
-    },
-    subtitle: {
-      color: Colors.snow,
-      padding: Metrics.smallMargin,
-      marginBottom: Metrics.smallMargin,
-      marginHorizontal: Metrics.smallMargin
-    }
   },
-  darkLabelContainer: {
-    backgroundColor: Colors.cloud,
-    padding: Metrics.smallMargin
-  },
-  darkLabel: {
-    fontFamily: Fonts.type.bold,
-    color: Colors.snow
-  },
-  groupContainer: {
-    margin: Metrics.smallMargin,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  sectionTitle: {
-    ...Fonts.style.h4,
-    color: Colors.coal,
-    backgroundColor: Colors.ricePaper,
-    padding: Metrics.smallMargin,
-    marginTop: Metrics.smallMargin,
-    marginHorizontal: Metrics.baseMargin,
-    borderWidth: 1,
-    borderColor: Colors.ember,
-    alignItems: 'center',
-    textAlign: 'center'
-  }
 }
 
 export default ApplicationStyles
