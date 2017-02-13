@@ -10,13 +10,14 @@ import ConvertFromAPI from '../Transforms/ConvertFromAPI'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  requestTopPaidApps: [''],
-  requestTopFreeApps: [''],
-  // requestAppListSuccess: ['nature'],
+  // Saga Actions
+  requestTopPaidAppsList: [''],
+  requestPaidAppsRatings: ['entries'],
+  requestTopFreeAppsList: [''],
+  requestFreeAppsRatings: ['entries'],
+  // Reducer Actions
+  requestAppListSuccess: ['data'],
   requestAppListFailure: ['response'],
-  requestApp: ['app'],
-  requestAppSuccess: ['data'],
-  requestAppFailure: ['data'],
 })
 
 export const AppsTypes = Types
@@ -29,42 +30,20 @@ export const INITIAL_STATE = Immutable({
   topFreeApps: [],
   paidAppsError: false,
   freeAppsError: false,
-  // receivedPaidApps: false,
-  // receivedFreeApps: false,
 })
 
 /* ------------- Reducers ------------- */
 
-const requestTopPaid = (state: Object, action: Object) =>
-  state
-    .set('topPaidApps', [])
-
-const requestTopFree = (state: Object, action: Object) =>
-  state.set('topFreeApps', [])
-
-// export const appListSuccess = (state: Object, action: Object) => {
-//   const { nature, entries } = action.data
-//   const substate = ConvertFromAPI(entries)
-//   if (nature === 'paid') {
-//     return state
-//       .set('topPaidApps', substate)
-//       .set('paidAppsError', false)
-//   }
-//   if (nature === 'free') {
-//     return state
-//       .set('topFreeApps', substate)
-//       .set('freeAppsError', false)
-//   }
-// }
-
-// const appListSuccess = (state: Object, action: Object) => {
-//   if (action.nature === 'paid') {
-//     return state.set('receivedPaidApps', true)
-//   }
-//   if (action.nature === 'free') {
-//     return state.set('receivedFreeApps', true)
-//   }
-// }
+const appListSuccess = (state: Object, action: Object) => {
+  const { nature, entries } = action.data
+  const updatedEntries = ConvertFromAPI(entries)
+  if (nature === 'paid') {
+    return state.set('topPaidApps', updatedEntries)
+  }
+  if (nature === 'free') {
+    return state.set('topFreeApps', updatedEntries)
+  }
+}
 
 const appListFailure = (state: Object, action: Object) => {
   const { nature, response } = action.data
@@ -80,48 +59,9 @@ const appListFailure = (state: Object, action: Object) => {
   }
 }
 
-const appSuccess = (state: Object, action: Object) => {
-  const { nature, entry } = action.data
-  const newApp = ConvertFromAPI(entry)
-  if (nature === 'paid') {
-    // const appList = state.get('topPaidApps').toArray()
-    // appList.push(newApp)
-    // return state
-    //   .set('topPaidApps', appList)
-    return state
-      .update('topPaidApps', arr => arr.concat(newApp))
-  }
-  if (nature === 'free') {
-    // const appList = state.get('topFreeApps').toArray()
-    // appList.push(newApp)
-    // return state
-    //   .set('topPaidApps', appList)
-    return state
-      .update('topFreeApps', arr => arr.concat(newApp))
-  }
-}
-
-const appFailure = (state: Object, action: Object) => {
-  const { nature, key } = action.data
-  if (nature === 'paid') {
-    return state
-      .setIn(['topPaidApps', key, 'rating'], undefined)
-      .setIn(['topPaidApps', key, 'ratingCount'], undefined)
-  }
-  if (nature === 'free') {
-    return state
-      .setIn(['topFreeApps', key, 'rating'], undefined)
-      .setIn(['topFreeApps', key, 'ratingCount'], undefined)
-  }
-}
-
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.REQUEST_TOP_PAID_APPS]: requestTopPaid,
-  [Types.REQUEST_TOP_FREE_APPS]: requestTopFree,
   [Types.REQUEST_APP_LIST_FAILURE]: appListFailure,
-  [Types.REQUEST_APP_SUCCESS]: appSuccess,
-  [Types.REQUEST_APP_FAILURE]: appFailure,
+  [Types.REQUEST_APP_LIST_SUCCESS]: appListSuccess,
 })
-  // [Types.REQUEST_APP_LIST_SUCCESS]: appListSuccess,

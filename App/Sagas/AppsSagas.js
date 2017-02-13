@@ -3,21 +3,12 @@ import { path } from 'ramda'
 import AppsActions from '../Redux/AppsRedux'
 import API from '../Services/Api';
 
-export function * getFreeApps () {
+export function * getFreeAppsList () {
   const api = API.create('rss/topfreeapplications/limit=100/lang=zh/json')
   const response = yield call(api.getApps)
   if (response.ok) {
-
     const entries = response.data.feed.entry
-    const updatedEntries = yield entries.map(entry => {
-      const nature = 'free'
-      return put(AppsActions.requestApp({entry, nature}))
-    })
-    // yield put(AppsActions.requestAppListSuccess('free'))
-    // yield put(AppsActions.requestAppListSuccess({
-    //   nature: 'free',
-    //   entries: response.data.feed.entry
-    // }))
+    yield put(AppsActions.requestFreeAppsRatings(entries))
   } else {
     yield put(AppsActions.requestAppListFailure({
       nature: 'free',
@@ -26,24 +17,12 @@ export function * getFreeApps () {
   }
 }
 
-export function * getPaidApps () {
+export function * getPaidAppsList () {
   const api = API.create('rss/topgrossingapplications/limit=10/lang=zh/json')
   const response = yield call(api.getApps)
   if (response.ok) {
-
     const entries = response.data.feed.entry
-    const updatedEntries = yield entries.map(entry => {
-      const nature = 'paid'
-      return put(AppsActions.requestApp({entry, nature}))
-    })
-
-    // yield put(AppsActions.requestAppListSuccess('paid'))
-
-    // yield put(AppsActions.request)
-    // yield put(AppsActions.requestAppListSuccess({
-    //   nature: 'paid',
-    //   entries: response.data.feed.entry
-    // }))
+    yield put(AppsActions.requestPaidAppsRatings(entries))
   } else {
     yield put(AppsActions.requestAppListFailure({
       nature: 'paid',
@@ -52,16 +31,35 @@ export function * getPaidApps () {
   }
 }
 
-export function * getApp ({app}) {
-  const { nature, entry } = app
-  const appId = entry.id.attributes['im:id']
-  const api = API.create(`lookup?id=${appId}&lang=zh`)
+export function * getPaidAppsRatings ({entries}) {
+  const newEntries = yield entries.map(entry => {
+    const appId = entry.id.attributes['im:id']
+    const api = API.create(`lookup?id=${appId}&lang=zh`)
+    return getAppEntry(api, entry)
+  })
+
+  yield put(AppsActions.requestAppListSuccess({
+    nature: 'paid',
+    entries: newEntries
+  }))
+}
+
+export function * getFreeAppsRatings ({entries}) {
+  const newEntries = yield entries.map(entry => {
+    const appId = entry.id.attributes['im:id']
+    const api = API.create(`lookup?id=${appId}&lang=zh`)
+    return getAppEntry(api, entry)
+  })
+
+  yield put(AppsActions.requestAppListSuccess({
+    nature: 'free',
+    entries: newEntries
+  }))
+}
+
+export function * getAppEntry (api, entry) {
   const response = yield call(api.getApp)
   entry.rating = response.data.results[0].averageUserRating
   entry.ratingCount = response.data.results[0].userRatingCount
-  console.tron.display({name: 'finally', value: {entry, nature}})
-
-  yield put(AppsActions.requestAppSuccess({nature, entry}))
-
-  console.tron.display({name: 'we here now.', value: {entry, nature}})
+  return entry
 }

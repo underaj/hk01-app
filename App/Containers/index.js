@@ -46,7 +46,7 @@ class RootContainer extends Component {
         }
       })
 
-      if (topFreeApps.length === 100 && topPaidApps.length === 10) {
+      if (topFreeApps.length && topPaidApps.length) {
         this.props.combineLists(topPaidApps, topFreeApps)
       }
     }
@@ -103,8 +103,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchAppLists: () => {
-    dispatch(AppsActions.requestTopPaidApps())
-    dispatch(AppsActions.requestTopFreeApps())
+    dispatch(AppsActions.requestTopPaidAppsList())
+    dispatch(AppsActions.requestTopFreeAppsList())
   },
   combineLists: (list1, list2) => {
     const apps = list1.concat(list2)
