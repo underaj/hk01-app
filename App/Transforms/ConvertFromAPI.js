@@ -8,7 +8,7 @@ export default (entries: Array) => entries.map((entry, i) => ({
   link: entry.link.attributes.href,
   summary: entry.summary.label,
   author: entry['im:artist'].label,
-  rating: null,
-  ratingCount: null
+  rating: entry.rating,
+  ratingCount: entry.ratingCount
 }))
 

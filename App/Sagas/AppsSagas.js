@@ -7,10 +7,17 @@ export function * getFreeApps () {
   const api = API.create('rss/topfreeapplications/limit=100/lang=zh/json')
   const response = yield call(api.getApps)
   if (response.ok) {
-    yield put(AppsActions.requestAppListSuccess({
-      nature: 'free',
-      entries: response.data.feed.entry
-    }))
+
+    const entries = response.data.feed.entry
+    const updatedEntries = yield entries.map(entry => {
+      const nature = 'free'
+      return put(AppsActions.requestApp({entry, nature}))
+    })
+    // yield put(AppsActions.requestAppListSuccess('free'))
+    // yield put(AppsActions.requestAppListSuccess({
+    //   nature: 'free',
+    //   entries: response.data.feed.entry
+    // }))
   } else {
     yield put(AppsActions.requestAppListFailure({
       nature: 'free',
@@ -23,11 +30,20 @@ export function * getPaidApps () {
   const api = API.create('rss/topgrossingapplications/limit=10/lang=zh/json')
   const response = yield call(api.getApps)
   if (response.ok) {
-    console.tron.log({entries: response.data.feed.entry})
-    yield put(AppsActions.requestAppListSuccess({
-      nature: 'paid',
-      entries: response.data.feed.entry
-    }))
+
+    const entries = response.data.feed.entry
+    const updatedEntries = yield entries.map(entry => {
+      const nature = 'paid'
+      return put(AppsActions.requestApp({entry, nature}))
+    })
+
+    // yield put(AppsActions.requestAppListSuccess('paid'))
+
+    // yield put(AppsActions.request)
+    // yield put(AppsActions.requestAppListSuccess({
+    //   nature: 'paid',
+    //   entries: response.data.feed.entry
+    // }))
   } else {
     yield put(AppsActions.requestAppListFailure({
       nature: 'paid',
@@ -36,18 +52,16 @@ export function * getPaidApps () {
   }
 }
 
-export function * getApp ({nature, key, appId}) {
+export function * getApp ({app}) {
+  const { nature, entry } = app
+  const appId = entry.id.attributes['im:id']
   const api = API.create(`lookup?id=${appId}&lang=zh`)
   const response = yield call(api.getApp)
+  entry.rating = response.data.results[0].averageUserRating
+  entry.ratingCount = response.data.results[0].userRatingCount
+  console.tron.display({name: 'finally', value: {entry, nature}})
 
-  if (response.ok) {
-    yield put(AppsActions.requestAppSuccess({
-      nature,
-      key,
-      rating: response.results.averageUserRating,
-      ratingCount: response[0].results.userRatingCount
-    }))
-  } else {
-    yield put(AppsActions.requestAppFailure({nature, key}))
-  }
+  yield put(AppsActions.requestAppSuccess({nature, entry}))
+
+  console.tron.display({name: 'we here now.', value: {entry, nature}})
 }

@@ -49,6 +49,7 @@ const create = (url, baseURL='https://itunes.apple.com/hk/') => {
 
   return {
     getApps,
+    getApp
   }
 }
 
