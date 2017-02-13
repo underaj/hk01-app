@@ -13,11 +13,10 @@ export default StyleSheet.create({
   loader: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 8,
   },
   loadingWrapper: {
     flex: 1,
-    backgroundColor: Colors.coal,
+    backgroundColor: Colors.orange,
     justifyContent: 'center'
   },
   welcome: {

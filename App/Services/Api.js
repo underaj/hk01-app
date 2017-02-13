@@ -16,14 +16,6 @@ const create = (url, baseURL='https://itunes.apple.com/hk/') => {
     }
   })
 
-  // Wrap api's addMonitor to allow the calling code to attach
-  // additional monitors in the future.  But only in __DEV__ and only
-  // if we've attached Reactotron to console (it isn't during unit tests).
-
-  if (__DEV__ && console.tron) {
-    api.addMonitor(console.tron.apisauce)
-  }
-
   // ------
   // STEP 2
   // ------
@@ -43,9 +35,6 @@ const create = (url, baseURL='https://itunes.apple.com/hk/') => {
   // interface.  Most of the time it'll be just the list of all the
   // methods in step 2.
   //
-  // Notice we're not returning back the `api` created in step 1?  That's
-  // because it is scoped privately.  This is one way to create truly
-  // private scoped goodies in JavaScript.
 
   return {
     getApps,

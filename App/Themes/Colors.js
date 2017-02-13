@@ -8,7 +8,7 @@ const colors = {
   charcoal: '#595959',
   coal: '#2d2d2d',
   steel: '#CCCCCC',
-  ember: 'rgba(164, 0, 48, 0.5)',
+  orange: 'orange',
   drawer: 'rgba(30, 30, 29, 0.95)'
 }
 

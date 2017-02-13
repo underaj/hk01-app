@@ -24,27 +24,13 @@ class RootContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { topPaidApps, topFreeApps, freeAppsError, paidAppsError } = nextProps
+    const { topPaidApps, topFreeApps, freeAppsError, paidAppsError, loaded } = nextProps
 
-    if (nextProps && !nextProps.loaded) {
+    if (nextProps && !loaded) {
       if (freeAppsError || paidAppsError) {
         console.tron.error({name: 'error in here.'})
         return this.setState({ errors: true })
       }
-
-      console.tron.display({
-        name: 'update in container index!',
-        value: {
-          topFreeApps: {
-            data: topFreeApps,
-            length: topFreeApps.length
-          },
-          topPaidApps: {
-            data: topPaidApps,
-            length: topPaidApps.length
-          }
-        }
-      })
 
       if (topFreeApps.length && topPaidApps.length) {
         this.props.combineLists(topPaidApps, topFreeApps)
@@ -55,7 +41,7 @@ class RootContainer extends Component {
   renderError() {
     return (
       <View style={styles.applicationView}>
-        <Text>
+        <Text style={styles.loader}>
           There was an error retrieving apps
         </Text>
       </View>
@@ -91,8 +77,6 @@ class RootContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    // receivedPaidApps: state.apps.receivedPaidApps,
-    // receivedFreeApps: state.apps.receivedFreeApps,
     topPaidApps: state.apps.topPaidApps,
     topFreeApps: state.apps.topFreeApps,
     paidAppsError: state.apps.paidAppsError,

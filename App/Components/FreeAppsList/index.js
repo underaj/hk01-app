@@ -2,6 +2,7 @@
 import React from 'react'
 import { ListView, View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
 import StarRating from 'react-native-star-rating'
+import { Colors, Fonts } from '../../Themes'
 
 // Styles
 import styles from './styles'
@@ -17,7 +18,7 @@ const FreeAppsList = ({ data }) => (
     scrollRenderAheadDistance={10}
     scrollEnabled={false}
     enableEmptySections
-    />
+  />
 )
 
 const AppEntry = (data, sectionId, rowId) => (
@@ -36,15 +37,25 @@ const AppEntry = (data, sectionId, rowId) => (
       <Text style={styles.category}>
         { data.category }
       </Text>
-      {/*
-      <StarRating
-        disabled={true}
-        maxStars={5}
-
-        />
-      */}
-
-
+      <View style={styles.ratings}>
+        <View style={styles.starsWrapper}>
+          <StarRating
+            disabled={true}
+            selectedStar={()=>{}}
+            maxStars={5}
+            rating={data.rating}
+            iconSet={'Ionicons'}
+            emptyStar={'ios-star-outline'}
+            halfStar={'ios-star-half'}
+            fullStar={'ios-star'}
+            starColor={Colors.orange}
+            starSize={Fonts.size.medium}
+          />
+        </View>
+        <Text style={styles.ratingCount}>
+          ({data.ratingCount})
+        </Text>
+      </View>
     </View>
   </View>
 )

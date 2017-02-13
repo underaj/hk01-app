@@ -2,7 +2,6 @@
 import React from 'react'
 import { ScrollView, Text, View, ListView } from 'react-native'
 import { connect } from 'react-redux'
-import { Actions as NavigationActions } from 'react-native-router-flux'
 
 // Styles
 import styles from './styles'
@@ -30,23 +29,18 @@ class Home extends React.Component {
     this.state = {
       topPaidApps: ds.cloneWithRows(props.topPaidApps),
       topFreeApps: ds.cloneWithRows(props.topFreeApps),
-      results: ds.cloneWithRows(props.results),
-      loaded: false
+      results: ds.cloneWithRows(props.results)
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    const { topPaidApps, topFreeApps, results } = nextProps
     if (nextProps) {
-      const topPaidApps = nextProps.topPaidApps
-      const topFreeApps = nextProps.topFreeApps
-      const results     = nextProps.results
-
       this.setState({
         topPaidApps: this.state.topPaidApps.cloneWithRows(topPaidApps),
         topFreeApps: this.state.topFreeApps.cloneWithRows(topFreeApps),
         results: this.state.results.cloneWithRows(results)
       })
-
     }
   }
 

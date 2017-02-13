@@ -35,6 +35,23 @@ const ApplicationStyles = {
       paddingLeft: 15,
       height: Metrics.image.row - 8,
     },
+    separator: {
+      flex: 1,
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: Colors.steel
+    },
+    ratings: {
+      flexDirection: 'row'
+    },
+    starsWrapper: {
+      width: 70,
+      alignItems: 'flex-start'
+    },
+    ratingCount: {
+      color: Colors.grey,
+      fontSize: Fonts.size.small,
+      alignItems: 'flex-end'
+    },
     mainContainer: {
       flex: 1,
       marginTop: Metrics.navBarHeight,

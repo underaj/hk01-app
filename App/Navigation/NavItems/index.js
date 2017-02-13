@@ -8,18 +8,6 @@ import { Colors, Metrics } from '../../Themes'
 import styles from './styles'
 
 export default {
-  backButton () {
-    return (
-      <TouchableOpacity onPress={NavigationActions.pop}>
-        <Icon name='angle-left'
-          size={Metrics.icons}
-          color={Colors.snow}
-          style={styles.backButton}
-        />
-      </TouchableOpacity>
-    )
-  },
-
   searchButton (callback: Function) {
     return (
       <TouchableOpacity onPress={callback}>
@@ -31,5 +19,4 @@ export default {
       </TouchableOpacity>
     )
   }
-
 }
